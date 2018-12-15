@@ -15,4 +15,4 @@
  *
  */
 
-include 'electricspock-electricspock', 'electricspock-core', 'sample'
+include 'electricspock-electricspock', 'electricspock-core'

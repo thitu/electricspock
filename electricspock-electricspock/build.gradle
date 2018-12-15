@@ -15,44 +15,37 @@
  *
  */
 
-apply plugin: 'java'
-apply plugin: 'groovy'
-apply plugin: 'maven'
+apply plugin: "idea"
+apply plugin: "java"
+apply plugin: "groovy"
 
-artifactId='electricspock'
-group='hkhc.electricspock'
+ext {
+  artifact = "electricspock"
+}
 
-def coreProject = 'electricspock-core'
-
-// Include the classes from core electricspock project
-def pwd = project.rootDir.toString()+"/"+coreProject
 jar {
-    from {
-        (configurations.compileOnly).findAll {
-            it.toString().startsWith(pwd)
-        }
-        .collect {
-            it.isDirectory() ? it : zipTree(it)
-        }
-    }
+  baseName = artifact
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-
-    compile 'org.codehaus.groovy:groovy-all:2.4.10'
-    compile "org.spockframework:spock-core:1.1-groovy-2.4-rc-4"
-    compile 'cglib:cglib-nodep:3.2.4'
-
-//    testCompile 'net.bytebuddy:byte-buddy:1.6.3'
-
-    compile 'org.jetbrains:annotations-java5:15.0'
-    compile 'junit:junit:4.12'
-
-    compileOnly project(':'+coreProject)
-//    compile project(':'+coreProject)
-
+  compile project(":electricspock-core")
+  compile "cglib:cglib-nodep:3.2.10"
 }
 
-sourceCompatibility = "1.7"
-targetCompatibility = "1.7"
+sourceCompatibility = "1.8"
+targetCompatibility = "1.8"
+
+configurations.all {
+  resolutionStrategy {
+    failOnVersionConflict()
+    preferProjectModules()
+
+    def set = [] as Set
+
+    force set.toArray()
+    forcedModules = set
+  }
+}
+
+// last
+apply from: "../publishing.gradle"

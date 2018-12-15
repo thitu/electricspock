@@ -1,0 +1,53 @@
+apply plugin: "java-library"
+apply plugin: "maven-publish"
+apply plugin: "com.jfrog.bintray"
+
+task sourcesJar(type: Jar) {
+  from sourceSets.main.allJava
+  classifier = 'sources'
+}
+
+task javadocJar(type: Jar) {
+  from javadoc
+  classifier = 'javadoc'
+}
+
+publishing {
+  publications {
+    mavenJava(MavenPublication) {
+      from components.java
+      artifact sourcesJar
+      artifact javadocJar
+
+      groupId groupId
+      artifactId "${artifact}"
+      version version
+    }
+  }
+  repositories {
+    mavenLocal()
+  }
+}
+
+bintray {
+  user = BINTRAY_USERNAME
+  key = BINTRAY_API_KEY
+
+  publications = ["mavenJava"]
+
+  pkg {
+    repo = "releases"
+    name = "${artifact}"
+
+    licenses = ["Apache-2.0"]
+    vcsUrl = "https://github.com/thitu/electricspock.git"
+    publicDownloadNumbers = true
+    version {
+      name = version
+      desc = "Cloned ElectricSpock"
+      released = new Date()
+      vcsTag = version
+      attributes = [:]
+    }
+  }
+}
