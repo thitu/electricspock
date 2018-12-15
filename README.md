@@ -1,4 +1,4 @@
-# ElectricSpock
+# ElectricSpock (forked)
 
 [ ![Download](https://api.bintray.com/packages/thitu/releases/electricspock/images/download.svg) ](https://bintray.com/thitu/releases/electricspock/_latestVersion)
 [![Build Status](https://travis-ci.com/thitu/electricspock.svg?branch=master)](https://travis-ci.com/thitu/electricspock)
