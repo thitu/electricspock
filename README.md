@@ -1,25 +1,16 @@
 # ElectricSpock
 
 [ ![Download](https://api.bintray.com/packages/thitu/releases/electricspock/images/download.svg) ](https://bintray.com/thitu/releases/electricspock/_latestVersion)
+[![Build Status](https://travis-ci.com/thitu/electricspock.svg?branch=master)](https://travis-ci.com/thitu/electricspock)
 
 The latest version of this fork is `1.0.2` which has been updated to support [Robolectric](http://robolectric.org) version `4.0.2`
 
-The original fork is [here](https://github.com/hkhc/electricspock)
+The original code that this is forked from is available [here](https://github.com/hkhc/electricspock).
 
 
-## About
+# Installation via Gradle
 
-The Android test framework [Robolectric](https://github.com/robolectric/robolectric) is designed with JUnit in mind and it does not work well with Spock framework. Fortunately there is a project [RoboSpock](https://github.com/robospock/RoboSpock) is designed for that. It configure Robolectric properly under the framework of Spock framework. However it based on some internal source code of Robolectric and it has no official support to Robolectric 3.1 yet. There is an [issue](https://github.com/robospock/RoboSpock/issues/59) for that, but it has been quite some time. So I decided to make my own.
-
-It is heavily based on RoboSpock project. It borrow a lot of code from there, and make some tweak of my own. This project is never possible without the excellent foundation.
-
-Current version (0.5) of the library is tested with Robolectric 3.3.2.
-
-# Installation (Gradle)
-
-The archive of this project is deployed with [jitpack](https://jitpack.io). Add the following to your gradle build script.
-
-Add it in your root build.gradle at the end of repositories:
+Add the following repository to your top level `build.gradle` file:
 
 ```groovy
 	allprojects {
@@ -30,7 +21,7 @@ Add it in your root build.gradle at the end of repositories:
 	}
 ```
 
-Add the dependency
+Add the dependency in your module's `build.gradle file`
 
 ```groovy
 	dependencies {
@@ -39,12 +30,9 @@ Add the dependency
 	}
 ```
 
-Spock, Robolectric and Groovy are dependencies of ElectricSpock,
-so it should work without adding these dependencies to build.gradle,
-but you may override them with the version you prefer.
+Spock, Robolectric and Groovy are dependencies of ElectricSpock, so it should work without adding these dependencies to build.gradle, but you may override them with the version you prefer.
 
-Then we may just write Spock specification with `ElectricSpecification`
-class and Robolectric's `@Config` annotation
+Then we may just write Spock specification with `ElectricSpecification` class and Robolectric's `@Config` annotation
 
 ```groovy
 
