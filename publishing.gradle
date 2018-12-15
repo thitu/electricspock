@@ -19,9 +19,9 @@ publishing {
       artifact sourcesJar
       artifact javadocJar
 
-      groupId groupId
+      groupId group
       artifactId "${artifact}"
-      version version
+      version project.version
     }
   }
   repositories {
@@ -43,10 +43,10 @@ bintray {
     vcsUrl = "https://github.com/thitu/electricspock.git"
     publicDownloadNumbers = true
     version {
-      name = version
+      name = project.version
       desc = "Cloned ElectricSpock"
       released = new Date()
-      vcsTag = version
+      vcsTag = project.version
       attributes = [:]
     }
   }
