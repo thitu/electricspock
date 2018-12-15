@@ -1,11 +1,24 @@
 # ElectricSpock
 
-[ ![Download](https://api.bintray.com/packages/thitu/releases/electricspock/images/download.svg) ](https://bintray.com/thitu/releases/electricspock/_latestVersion)
+[![Release](https://jitpack.io/v/hkhc/electricspock.svg)](https://jitpack.io/#hkhc/electricspock)
 
-The latest version of this fork is `1.0.2` which has been updated to support [Robolectric](http://robolectric.org) version `4.0.2`
+## What's new
 
-The original fork is [here](https://github.com/hkhc/electricspock)
+The latest version is 0.5.0.1
 
+Version 0.5 Compatible with Robolectric 3.3.x. Reorganize yet again, maximal reuse of code from RobolectricTestRunner
+
+Version 0.4 reorganize code structure, new ElectricSuite class
+
+Version 0.3.1 fix an issue to build with jitpack.
+
+Version 0.3 is built as JAR rather than AAR to make gradle detect `ElectricSpecification` as JUnit class properly.
+
+Version 0.2 is updated to work with Robolectric 3.2.
+
+For those who stick to Robolectric 3.2, please use version 0.4.1.
+
+For those who stick to Robolectric 3.1, please use version 0.1.
 
 ## About
 
@@ -25,7 +38,7 @@ Add it in your root build.gradle at the end of repositories:
 	allprojects {
 		repositories {
 			...
-			maven { url  "https://dl.bintray.com/thitu/releases" }
+			maven { url 'https://jitpack.io' }
 		}
 	}
 ```
@@ -34,8 +47,7 @@ Add the dependency
 
 ```groovy
 	dependencies {
-    ...
-    testImplementation "com.github.thitu.electricspock:electricspock:1.0.2"
+		testCompile 'com.github.hkhc:electricspock:0.5.0.1'
 	}
 ```
 
@@ -51,15 +63,16 @@ class and Robolectric's `@Config` annotation
 @Config(constants=BuildConfig)
 class MySpec extends ElectricSpecification {
 
-  def "Robolectric is enabled"() {
+    def "Robolectric is enabled"() {
 
-    when: "invoking call to Android API"
-      android.util.Log.d("TAG", "Hello world")
+        when: "invoking call to Android API"
+            android.util.Log.d("TAG", "Hello world")
 
-    then: "there should not be any error"
-      notThrown Exception
+        then: "there should not be any error"
+            notThrown Exception
+
     }
-  }
+
 }
 
 ```
@@ -76,13 +89,24 @@ For example
 
 class MySpec extends ElectricSuite {
 
-  static class MyInnerSpec1 extends ElectricSpecification {
-    [....]
-  }
+    static class MyInnerSpec1 extends ElectricSpecification {
+        [....]
+    }
 
-  static class MyInnerSpec2 extends ElectricSpecification [
-    [....]
-  }
+    static class MyInnerSpec2 extends ElectricSpecification [
+        [....]
+    }
+
 }
 
 ```
+
+Please note that there are a few limitations:
+
+* We cannot have any test method in the `ElectricSuite` class. All test methods shall be in the inner test classes
+of `ElectricSuite`.
+
+* (ElecrtricSpock 0.5 fixed this) ~~When using with [Spock-reporting-plugin](https://github.com/renatoathaydes/spock-reports), all inner classes
+of the same `ElectricSuite` class shall have the same base class. i.e. Either all of them extend from `ElectricSpecification`
+or `Specification`. Mix of different base classes will cause exception in the reporting plugin.
+It will be something like `OverlappingFileLockException`.~~
