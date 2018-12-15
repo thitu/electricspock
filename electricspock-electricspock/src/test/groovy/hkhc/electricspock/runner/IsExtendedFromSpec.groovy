@@ -27,20 +27,20 @@ import spock.lang.Specification
  */
 class IsExtendedFromSpec extends Specification {
 
-    def "a class is extended from its super class"() {
-        expect:
-        SpecUtils.isExtendedFrom(Rose, Plant)
-    }
+  def "a class is extended from its super class"() {
+    expect:
+    SpecUtils.isExtendedFrom(Rose, Plant)
+  }
 
-    def "a class is extended from its ancestor class"() {
-        expect: "a class is extended from its ancestor class"
-        SpecUtils.isExtendedFrom(Rose, LivingThing)
-    }
+  def "a class is extended from its ancestor class"() {
+    expect: "a class is extended from its ancestor class"
+    SpecUtils.isExtendedFrom(Rose, LivingThing)
+  }
 
-    def "a class is not extended from another class"() {
+  def "a class is not extended from another class"() {
 
-        expect: "a class is not extended from another class"
-        false == SpecUtils.isExtendedFrom(Rose, String)
-    }
+    expect: "a class is not extended from another class"
+    !SpecUtils.isExtendedFrom(Rose, String)
+  }
 
 }

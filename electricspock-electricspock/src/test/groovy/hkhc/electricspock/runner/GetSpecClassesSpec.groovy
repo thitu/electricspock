@@ -35,24 +35,23 @@ import static hkhc.electricspock.runner.SpecUtils.getSpecClasses
 @TypeChecked
 class GetSpecClassesSpec extends Specification {
 
-    def "Class without inner Specfication class"() {
-        expect:
-        getSpecClasses(NoSpecification).size()==0
-    }
+  def "Class without inner Specfication class"() {
+    expect:
+    getSpecClasses(NoSpecification).size() == 0
+  }
 
-    def "Class with one inner Specfication class"() {
-        expect:
-        getSpecClasses(OneSpecification).size()==1
-    }
+  def "Class with one inner Specfication class"() {
+    expect:
+    getSpecClasses(OneSpecification).size() == 1
+  }
 
-    def "Class with one inner non-Specification class"() {
-        expect:
-        getSpecClasses(OneNonSpec).size()==0
-    }
+  def "Class with one inner non-Specification class"() {
+    expect:
+    getSpecClasses(OneNonSpec).size() == 0
+  }
 
-    def "Class with two inner Specfication classes"() {
-        expect:
-        getSpecClasses(TwoSpecifications).size()==2
-    }
-
+  def "Class with two inner Specfication classes"() {
+    expect:
+    getSpecClasses(TwoSpecifications).size() == 2
+  }
 }

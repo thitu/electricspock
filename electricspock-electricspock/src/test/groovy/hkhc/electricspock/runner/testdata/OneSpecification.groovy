@@ -18,13 +18,14 @@
 package hkhc.electricspock.runner.testdata
 
 import spock.lang.Specification;
+
 /**
  * Created by herman on 16/1/2017.
  */
 class OneSpecification {
 
-    static class FirstSpec extends Specification {
+  static class FirstSpec extends Specification {
 
-    }
+  }
 
 }

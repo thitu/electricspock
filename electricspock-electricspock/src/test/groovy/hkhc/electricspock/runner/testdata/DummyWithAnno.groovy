@@ -18,12 +18,13 @@
 package hkhc.electricspock.runner.testdata
 
 import org.jetbrains.annotations.NotNull;
+
 /**
  * Created by herman on 16/1/2017.
  */
 class DummyWithAnno {
-    @NotNull
-    def testOne() {
+  @NotNull
+  def testOne() {
 
-    }
+  }
 }

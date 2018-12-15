@@ -18,18 +18,19 @@
 package hkhc.electricspock.runner.testdata
 
 import spock.lang.Specification;
+
 /**
  * Created by herman on 16/1/2017.
  */
 class TwoSpecifications {
 
-    static class SpecOne extends Specification {
+  static class SpecOne extends Specification {
 
-    }
+  }
 
-    static class SpecTwo extends Specification {
+  static class SpecTwo extends Specification {
 
-    }
+  }
 
 
 }

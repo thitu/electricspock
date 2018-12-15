@@ -19,11 +19,12 @@ package hkhc.electricspock.runner.testdata
 
 import org.junit.Ignore
 import org.junit.runner.RunWith
-import org.junit.runners.BlockJUnit4ClassRunner;
+import org.junit.runners.BlockJUnit4ClassRunner
+
 /**
  * Created by herman on 16/1/2017.
  */
-@RunWith(BlockJUnit4ClassRunner)
 @Ignore
+@RunWith(BlockJUnit4ClassRunner)
 class WithRunWith {
 }

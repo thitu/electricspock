@@ -17,21 +17,16 @@
 
 package hkhc.electricspock.runner;
 
-import org.junit.Test;
+import static hkhc.electricspock.runner.SpecUtils.getSpecClasses;
+
+import java.lang.annotation.Annotation;
+import java.util.List;
 import org.junit.runner.Description;
-import org.junit.runner.RunWith;
 import org.junit.runner.Runner;
 import org.junit.runners.Suite;
 import org.junit.runners.model.InitializationError;
 import org.junit.runners.model.RunnerBuilder;
-
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Method;
-import java.util.List;
-
 import spock.lang.Title;
-
-import static hkhc.electricspock.runner.SpecUtils.getSpecClasses;
 
 /**
  * Created by herman on 15/1/2017.
@@ -39,55 +34,55 @@ import static hkhc.electricspock.runner.SpecUtils.getSpecClasses;
 
 public class InnerSpecRunner extends Suite {
 
-    public InnerSpecRunner(Class<?> klass, RunnerBuilder builder) throws InitializationError {
-        super(builder, klass, getSpecClasses(klass));
-    }
+  public InnerSpecRunner(Class<?> klass, RunnerBuilder builder) throws InitializationError {
+    super(builder, klass, getSpecClasses(klass));
+  }
 
-    // Not expected to call
-    public InnerSpecRunner(RunnerBuilder builder, Class<?>[] classes) throws InitializationError {
-        super(builder, classes);
-    }
+  // Not expected to call
+  public InnerSpecRunner(RunnerBuilder builder, Class<?>[] classes) throws InitializationError {
+    super(builder, classes);
+  }
 
-    // Not expected to call
-    public InnerSpecRunner(Class<?> klass, Class<?>[] suiteClasses) throws InitializationError {
-        super(klass, suiteClasses);
-    }
+  // Not expected to call
+  public InnerSpecRunner(Class<?> klass, Class<?>[] suiteClasses) throws InitializationError {
+    super(klass, suiteClasses);
+  }
 
-    // Not expected to call
-    public InnerSpecRunner(RunnerBuilder builder, Class<?> klass, Class<?>[] suiteClasses) throws InitializationError {
-        super(builder, klass, suiteClasses);
-    }
+  // Not expected to call
+  public InnerSpecRunner(RunnerBuilder builder, Class<?> klass, Class<?>[] suiteClasses) throws InitializationError {
+    super(builder, klass, suiteClasses);
+  }
 
-    // Not expected to call
-    public InnerSpecRunner(Class<?> klass, List<Runner> runners) throws InitializationError {
-        super(klass, runners);
-    }
+  // Not expected to call
+  public InnerSpecRunner(Class<?> klass, List<Runner> runners) throws InitializationError {
+    super(klass, runners);
+  }
 
-    @Override
-    protected Description describeChild(Runner child) {
+  @Override
+  protected Description describeChild(Runner child) {
 
-        Description d = super.describeChild(child);
-        Class<?> testClass = d.getTestClass();
-        String title = null;
-        Annotation[] annotations = null;
-        if (testClass!=null) {
-            annotations = testClass.getAnnotations();
-            for (Annotation a : annotations) {
-                if (a instanceof Title) {
-                    title = ((Title) a).value();
-                    break;
-                }
-            }
+    Description d = super.describeChild(child);
+    Class<?> testClass = d.getTestClass();
+    String title = null;
+    Annotation[] annotations = null;
+    if (testClass != null) {
+      annotations = testClass.getAnnotations();
+      for (Annotation a : annotations) {
+        if (a instanceof Title) {
+          title = ((Title) a).value();
+          break;
         }
-        if (title!=null) {
-            Description newD = Description.createSuiteDescription(title, annotations);
-            for(Description childD : d.getChildren()) {
-                newD.addChild(childD);
-            }
-            return newD;
-        }
-        else {
-            return d;
-        }
+      }
     }
+    if (title != null) {
+      Description newD = Description.createSuiteDescription(title, annotations);
+      for (Description childD : d.getChildren()) {
+        newD.addChild(childD);
+      }
+      return newD;
+    }
+    else {
+      return d;
+    }
+  }
 }

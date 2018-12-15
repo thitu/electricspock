@@ -17,14 +17,9 @@
 
 package hkhc.electricspock.runner
 
-import hkhc.electricspock.runner.testdata.Dummy
-import hkhc.electricspock.runner.testdata.DummyWithAnno
-import hkhc.electricspock.runner.testdata.ExtendingWithRunWith
-import hkhc.electricspock.runner.testdata.WithRunWith
-import hkhc.electricspock.runner.testdata.WithTestMethod
+import hkhc.electricspock.runner.testdata.*
 import spock.lang.Specification
 import spock.lang.Title
-
 
 /**
  * Created by herman on 16/1/2017.
@@ -32,35 +27,33 @@ import spock.lang.Title
 @Title("check if a class is JUnit test case class")
 class IsJUnitClassSpec extends Specification {
 
-    def "Plain class is not JUnit class"() {
-        expect:
-        SpecUtils.isDirectJUnitClass(Dummy)==false
-    }
+  def "Plain class is not JUnit class"() {
+    expect:
+    !SpecUtils.isDirectJUnitClass(Dummy)
+  }
 
-    def "Class with @RunWith is JUnit class"() {
-        expect:
-        SpecUtils.isDirectJUnitClass(WithRunWith)
-    }
+  def "Class with @RunWith is JUnit class"() {
+    expect:
+    SpecUtils.isDirectJUnitClass(WithRunWith)
+  }
 
-    def "Class with @Test method is JUnit class"() {
-        expect:
-        SpecUtils.isDirectJUnitClass(WithTestMethod)
-    }
+  def "Class with @Test method is JUnit class"() {
+    expect:
+    SpecUtils.isDirectJUnitClass(WithTestMethod)
+  }
 
-    def "Class with arbitrary annotation is not JUnit class"() {
-        expect:
-        SpecUtils.isDirectJUnitClass(DummyWithAnno)==false
-    }
+  def "Class with arbitrary annotation is not JUnit class"() {
+    expect:
+    !SpecUtils.isDirectJUnitClass(DummyWithAnno)
+  }
 
-    def "Plain class is not JUnit class based on ancestors"() {
-        expect:
-        SpecUtils.isJUnitClass(Dummy)==false
-    }
+  def "Plain class is not JUnit class based on ancestors"() {
+    expect:
+    !SpecUtils.isJUnitClass(Dummy)
+  }
 
-    def "Class with @RunWith is JUnit class based on ancestors"() {
-        expect:
-        SpecUtils.isJUnitClass(ExtendingWithRunWith)
-    }
-
-
+  def "Class with @RunWith is JUnit class based on ancestors"() {
+    expect:
+    SpecUtils.isJUnitClass(ExtendingWithRunWith)
+  }
 }

@@ -21,8 +21,8 @@ package hkhc.electricspock.runner.testdata;
  */
 class OneNonSpec {
 
-    static class InnerSpec {
+  static class InnerSpec {
 
-    }
+  }
 
 }

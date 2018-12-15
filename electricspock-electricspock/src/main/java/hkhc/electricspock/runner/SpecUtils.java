@@ -17,11 +17,10 @@
 
 package hkhc.electricspock.runner;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * Created by herman on 16/1/2017.
@@ -29,80 +28,81 @@ import java.lang.reflect.Method;
 
 class SpecUtils {
 
-    /**
-     * Find all inner Specification class in a class
-     * @param kClass outer class
-     * @return array of inner Specification classes
-     */
-    static Class<?>[] getSpecClasses(Class<?> kClass) {
+  /**
+   * Find all inner Specification class in a class
+   *
+   * @param kClass outer class
+   * @return array of inner Specification classes
+   */
+  static Class<?>[] getSpecClasses(Class<?> kClass) {
 
-        Class<?>[] declaredClasses = kClass.getDeclaredClasses();
+    Class<?>[] declaredClasses = kClass.getDeclaredClasses();
 
-        Class<?>[] filteredClasses = new Class<?>[declaredClasses.length+1];
-        int count = 0;
+    Class<?>[] filteredClasses = new Class<?>[declaredClasses.length + 1];
+    int count = 0;
 
-        for(Class<?> cls : declaredClasses) {
-            if (isJUnitClass(cls)) {
-                filteredClasses[count++] = cls;
-            }
-        }
-
-        Class<?>[] resultClasses = new Class<?>[count];
-        System.arraycopy(filteredClasses,0, resultClasses, 0, count);
-
-        return resultClasses;
+    for (Class<?> cls : declaredClasses) {
+      if (isJUnitClass(cls)) {
+        filteredClasses[count++] = cls;
+      }
     }
 
-    static boolean isJUnitClass(Class<?> cls) {
-        if (isDirectJUnitClass(cls)) {
-            return true;
-        }
-        Class<?> superClass = cls.getSuperclass();
-        if (superClass!=null) {
-            return isJUnitClass(superClass);
-        }
-        else {
-            return false;
-        }
+    Class<?>[] resultClasses = new Class<?>[count];
+    System.arraycopy(filteredClasses, 0, resultClasses, 0, count);
+
+    return resultClasses;
+  }
+
+  static boolean isJUnitClass(Class<?> cls) {
+    if (isDirectJUnitClass(cls)) {
+      return true;
     }
+    Class<?> superClass = cls.getSuperclass();
+    if (superClass != null) {
+      return isJUnitClass(superClass);
+    }
+    else {
+      return false;
+    }
+  }
 
-    static boolean isDirectJUnitClass(Class<?> cls) {
+  static boolean isDirectJUnitClass(Class<?> cls) {
 
-        Annotation[] annotations = cls.getAnnotations();
-        for(Annotation a : annotations) {
-            if (a instanceof RunWith) {
-                return true;
-            }
+    Annotation[] annotations = cls.getAnnotations();
+    for (Annotation a : annotations) {
+      if (a instanceof RunWith) {
+        return true;
+      }
+    }
+    Method[] methods = cls.getMethods();
+    for (Method m : methods) {
+      Annotation[] methodAnnos = m.getAnnotations();
+      for (Annotation a : methodAnnos) {
+        if (a instanceof Test) {
+          return true;
         }
-        Method[] methods = cls.getMethods();
-        for(Method m : methods) {
-            Annotation[] methodAnnos = m.getAnnotations();
-            for(Annotation a : methodAnnos) {
-                if (a instanceof Test) {
-                    return true;
-                }
-            }
-        }
+      }
+    }
+    return false;
+
+  }
+
+  // TODO move it out of this class
+  static boolean isExtendedFrom(Class<?> cls, Class<?> targetBaseClass) {
+
+    if (cls == targetBaseClass) {
+      return true;
+    }
+    else {
+      Class<?> superClass = cls.getSuperclass();
+      if (superClass == null) {
         return false;
-
+      }
+      else {
+        return isExtendedFrom(superClass, targetBaseClass);
+      }
     }
 
-    // TODO move it out of this class
-    static boolean isExtendedFrom(Class<?> cls, Class<?> targetBaseClass) {
-
-        if (cls==targetBaseClass) {
-            return true;
-        }
-        else {
-            Class<?> superClass = cls.getSuperclass();
-            if (superClass==null) {
-                return false;
-            }
-            else {
-                return isExtendedFrom(superClass, targetBaseClass);
-            }
-        }
-
-    }
+  }
 
 }
