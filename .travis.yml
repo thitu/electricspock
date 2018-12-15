@@ -1,0 +1,20 @@
+branches:
+  only:
+    - /^master$/
+
+language: java
+jdk: oraclejdk8
+install: true
+
+before_script:
+  - bin/ci-setup-env.sh
+
+script:
+  - ./gradlew build
+
+deploy:
+  - provider: script
+    skip_cleanup: true
+    script: ./gradlew publish bintrayUpload
+    on:
+      tags: true
