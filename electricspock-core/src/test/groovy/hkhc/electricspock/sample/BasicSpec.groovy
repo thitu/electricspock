@@ -24,21 +24,20 @@ import spock.lang.Narrative
 /**
  * Created by herman on 28/12/2016.
  */
-@Config(manifest=Config.NONE)
+@Config(manifest = Config.NONE)
 @Narrative("""
 This spec assert that the enhanced specification should work just like the original specification.
 """)
 class BasicSpec extends ElectricSpecification {
 
-    def "It should work just like ordinary Specification"() {
+  def "It should work just like ordinary Specification"() {
+    given:
+    def a = 10
 
-        given:
-            def a=10
-        when:
-            a=a*2
-        then:
-            a==20
+    when:
+    a = a * 2
 
-    }
-
+    then:
+    a == 20
+  }
 }

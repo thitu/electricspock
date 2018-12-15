@@ -1,5 +1,8 @@
 package hkhc.electricspock.internal;
 
+import java.lang.reflect.Method;
+import java.util.List;
+import org.jetbrains.annotations.NotNull;
 import org.junit.Test;
 import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.InitializationError;
@@ -7,104 +10,95 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.internal.SdkEnvironment;
 import org.robolectric.internal.bytecode.InstrumentationConfiguration;
 
-import java.lang.reflect.Method;
-import java.util.List;
-
 /**
  * Created by hermanc on 31/3/2017.
  */
 
 public class ContainedRobolectricTestRunner extends RobolectricTestRunner {
 
-    private FrameworkMethod placeholderMethod = null;
-    private SdkEnvironment sdkEnvironment = null;
+  private FrameworkMethod placeholderMethod = null;
+  private SdkEnvironment sdkEnvironment = null;
 
-    /*
-    A place holder test class to obtain a proper FrameworkMethod (which is actually a
-    RoboFrameworkTestMethod) by reusing existing code in RobolectricTestRunner
-     */
-    public static class PlaceholderTest {
-        /* Just a placeholder, the actual content of the test method is not important */
-        @Test
-        public void testPlaceholder() {
+  /*
+  A place holder test class to obtain a proper FrameworkMethod (which is actually a
+  RoboFrameworkTestMethod) by reusing existing code in RobolectricTestRunner
+   */
+  public static class PlaceholderTest {
 
-        }
-    }
-
-    /*
-    Pretend to be a test runner for the placeholder test class. We don't actually run that test
-    method. Just use it to trigger all initialization of Robolectric infrastructure, and use it
-    for running Spock specification.
-     */
-    public ContainedRobolectricTestRunner() throws InitializationError {
-        super(PlaceholderTest.class);
-    }
-
-    private FrameworkMethod getPlaceHolderMethod() {
-
-        if (placeholderMethod==null) {
-            List<FrameworkMethod> childs = getChildren();
-            placeholderMethod = childs.get(0);
-        }
-
-        return placeholderMethod;
+    /* Just a placeholder, the actual content of the test method is not important */
+    @Test
+    public void testPlaceholder() {
 
     }
+  }
 
-    private Method getBootstrapedMethod() {
+  /*
+  Pretend to be a test runner for the placeholder test class. We don't actually run that test
+  method. Just use it to trigger all initialization of Robolectric infrastructure, and use it
+  for running Spock specification.
+   */
+  public ContainedRobolectricTestRunner() throws InitializationError {
+    super(PlaceholderTest.class);
+  }
 
-        FrameworkMethod placeholderMethod = getPlaceHolderMethod();
-        SdkEnvironment sdkEnvironment = getContainedSdkEnvironment();
+  private FrameworkMethod getPlaceHolderMethod() {
 
-        // getTestClass().getJavaClass() should always be PlaceholderTest.class,
-        // load under Robolectric's class loader
-        Class bootstrappedTestClass = sdkEnvironment.bootstrappedClass(
-                getTestClass().getJavaClass());
-
-        final Method bootstrappedMethod;
-        try {
-            // getMethod should always be the "testPlaceholder" method.
-            bootstrappedMethod = bootstrappedTestClass.getMethod(
-                    placeholderMethod.getMethod().getName());
-        } catch (NoSuchMethodException e) {
-            throw new RuntimeException(e);
-        }
-
-        return bootstrappedMethod;
-
+    if (placeholderMethod == null) {
+      List<FrameworkMethod> childs = getChildren();
+      placeholderMethod = childs.get(0);
     }
 
-    /*
-    Override to add itself to doNotAcquireClass, so as to avoid classloader conflict
-     */
-    @Override
-    protected InstrumentationConfiguration createClassLoaderConfig(final FrameworkMethod method) {
+    return placeholderMethod;
 
-        return new InstrumentationConfiguration.Builder(super.createClassLoaderConfig(method))
-                .doNotAcquireClass(getClass())
-                .build();
+  }
 
+  @SuppressWarnings("unchecked")
+  private Method getBootstrappedMethod() {
+    FrameworkMethod placeholderMethod = getPlaceHolderMethod();
+    SdkEnvironment sdkEnvironment = getContainedSdkEnvironment();
+
+    // getTestClass().getJavaClass() should always be PlaceholderTest.class,
+    // load under Robolectric's class loader
+    Class bootstrappedTestClass = sdkEnvironment.bootstrappedClass(getTestClass().getJavaClass());
+
+    final Method bootstrappedMethod;
+    try {
+      // getMethod should always be the "testPlaceholder" method.
+      bootstrappedMethod = bootstrappedTestClass.getMethod(placeholderMethod.getMethod().getName());
+    }
+    catch (NoSuchMethodException e) {
+      throw new RuntimeException(e);
     }
 
-    public SdkEnvironment getContainedSdkEnvironment() {
+    return bootstrappedMethod;
+  }
 
-        if (sdkEnvironment==null) {
-            sdkEnvironment = getSandbox(getPlaceHolderMethod());
-            configureShadows(getPlaceHolderMethod(), sdkEnvironment);
-        }
+  /*
+  Override to add itself to doNotAcquireClass, so as to avoid classloader conflict
+   */
+  @NotNull
+  @Override
+  protected InstrumentationConfiguration createClassLoaderConfig(final FrameworkMethod method) {
+    return new InstrumentationConfiguration.Builder(super.createClassLoaderConfig(method))
+      .doNotAcquireClass(getClass())
+      .build();
+  }
 
-        return sdkEnvironment;
-
+  public SdkEnvironment getContainedSdkEnvironment() {
+    if (sdkEnvironment == null) {
+      FrameworkMethod frameworkMethod = getPlaceHolderMethod();
+      sdkEnvironment = getSandbox(frameworkMethod);
+      configureSandbox(sdkEnvironment, frameworkMethod);
     }
 
-    public void containedBeforeTest() throws Throwable {
-        super.beforeTest(getContainedSdkEnvironment(), getPlaceHolderMethod(), getBootstrapedMethod());
-    }
+    return sdkEnvironment;
+  }
 
-    public void containedAfterTest() {
-        super.afterTest(getPlaceHolderMethod(), getBootstrapedMethod());
-    }
+  public void containedBeforeTest() throws Throwable {
+    super.beforeTest(getContainedSdkEnvironment(), getPlaceHolderMethod(), getBootstrappedMethod());
+  }
 
-
-
+  public void containedAfterTest() {
+    super.afterTest(getPlaceHolderMethod(), getBootstrappedMethod());
+  }
 }

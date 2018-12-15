@@ -17,11 +17,10 @@
 
 package hkhc.electricspock.internal;
 
+import hkhc.electricspock.ElectricSputnik;
 import org.spockframework.runtime.extension.AbstractMethodInterceptor;
 import org.spockframework.runtime.extension.IMethodInvocation;
 import org.spockframework.runtime.model.SpecInfo;
-
-import hkhc.electricspock.ElectricSputnik;
 
 /**
  * Created by herman on 27/12/2016.
@@ -29,44 +28,45 @@ import hkhc.electricspock.ElectricSputnik;
 
 public class ElectricSpockInterceptor extends AbstractMethodInterceptor {
 
-    private ContainedRobolectricTestRunner containedTestRunner;
+  private ContainedRobolectricTestRunner containedTestRunner;
 
-    public ElectricSpockInterceptor(SpecInfo spec,
-                                    ContainedRobolectricTestRunner containedRobolectricTestRunner) {
-        this.containedTestRunner = containedRobolectricTestRunner;
+  public ElectricSpockInterceptor(SpecInfo spec,
+                                  ContainedRobolectricTestRunner containedRobolectricTestRunner) {
+    this.containedTestRunner = containedRobolectricTestRunner;
 
-        spec.addInterceptor(this);
+    spec.addInterceptor(this);
+  }
+
+
+  /*
+  Migrate from RobolectricTestRunner.methodBlock
+   */
+  @Override
+  public void interceptSpecExecution(IMethodInvocation invocation) throws Throwable {
+
+    Thread.currentThread().setContextClassLoader(
+      containedTestRunner.getContainedSdkEnvironment().getRobolectricClassLoader());
+
+    try {
+      containedTestRunner.containedBeforeTest();
+    }
+    catch (Throwable e) {
+      throw new RuntimeException(e);
     }
 
-
-
-    /*
-    Migrate from RobolectricTestRunner.methodBlock
-     */
-    @Override
-    public void interceptSpecExecution(IMethodInvocation invocation) throws Throwable {
-
-        Thread.currentThread().setContextClassLoader(
-                containedTestRunner.getContainedSdkEnvironment().getRobolectricClassLoader());
-
-        try {
-            containedTestRunner.containedBeforeTest();
-        }
-        catch (Throwable e) {
-            throw new RuntimeException(e);
-        }
-
-        // todo: this try/finally probably isn't right -- should mimic RunAfters? [xw]
-        try {
-            invocation.proceed();
-        } finally {
-            try {
-                containedTestRunner.containedAfterTest();
-            } finally {
-                Thread.currentThread().setContextClassLoader(ElectricSputnik.class.getClassLoader());
-            }
-        }
-
+    // todo: this try/finally probably isn't right -- should mimic RunAfters? [xw]
+    try {
+      invocation.proceed();
     }
+    finally {
+      try {
+        containedTestRunner.containedAfterTest();
+      }
+      finally {
+        Thread.currentThread().setContextClassLoader(ElectricSputnik.class.getClassLoader());
+      }
+    }
+
+  }
 
 }
