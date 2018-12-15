@@ -10,22 +10,20 @@ The original code that this is forked from is available [here](https://github.co
 
 # Installation via Gradle
 
-Add the following repository to your top level `build.gradle` file:
+Add the release repository to your top level `build.gradle` file:
 
 ```groovy
 allprojects {
   repositories {
-  ...
-  maven { url  "https://dl.bintray.com/thitu/releases" }
+    maven { url  "https://dl.bintray.com/thitu/releases" }
   }
 }
 ```
 
-Add the dependency in your module's `build.gradle file`
+Add the dependency to your project module's `build.gradle` file:
 
 ```groovy
 dependencies {
-  ...
   testImplementation "com.github.thitu.electricspock:electricspock:1.0.2"
 }
 ```
