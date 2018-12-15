@@ -13,21 +13,21 @@ The original code that this is forked from is available [here](https://github.co
 Add the following repository to your top level `build.gradle` file:
 
 ```groovy
-	allprojects {
-		repositories {
-			...
-			maven { url  "https://dl.bintray.com/thitu/releases" }
-		}
-	}
+allprojects {
+  repositories {
+  ...
+  maven { url  "https://dl.bintray.com/thitu/releases" }
+  }
+}
 ```
 
 Add the dependency in your module's `build.gradle file`
 
 ```groovy
-	dependencies {
-    ...
-    testImplementation "com.github.thitu.electricspock:electricspock:1.0.2"
-	}
+dependencies {
+  ...
+  testImplementation "com.github.thitu.electricspock:electricspock:1.0.2"
+}
 ```
 
 Spock, Robolectric and Groovy are dependencies of ElectricSpock, so it should work without adding these dependencies to build.gradle, but you may override them with the version you prefer.
