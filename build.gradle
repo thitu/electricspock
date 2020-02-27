@@ -22,10 +22,10 @@ buildscript {
     jcenter()
   }
   dependencies {
-    classpath "com.android.tools.build:gradle:3.2.1"
-    classpath "org.codehaus.groovy:groovy-android-gradle-plugin:2.0.0"
-    classpath "com.netflix.nebula:gradle-extra-configurations-plugin:3.1.0"
-    classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:1.+"
+    classpath "com.android.tools.build:gradle:3.6.0"
+    classpath "org.codehaus.groovy:groovy-android-gradle-plugin:2.0.1"
+    classpath "com.netflix.nebula:gradle-extra-configurations-plugin:5.0.3"
+    classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4"
   }
 }
 
