@@ -11,4 +11,7 @@ if [ -n "${TRAVIS_TAG}" ]; then
   else
     echo "Error: missing publishing secrets" && exit -1
   fi
+else
+  echo "BINTRAY_USERNAME=__BINTRAY_USERNAME__" >> ~/.gradle/gradle.properties
+  echo "BINTRAY_API_KEY=__BINTRAY_API_KEY__" >> ~/.gradle/gradle.properties
 fi
