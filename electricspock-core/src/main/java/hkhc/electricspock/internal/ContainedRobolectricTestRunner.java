@@ -1,14 +1,14 @@
 package hkhc.electricspock.internal;
 
-import java.lang.reflect.Method;
-import java.util.List;
 import org.jetbrains.annotations.NotNull;
 import org.junit.Test;
 import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.InitializationError;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.internal.SdkEnvironment;
+import org.robolectric.internal.AndroidSandbox;
 import org.robolectric.internal.bytecode.InstrumentationConfiguration;
+
+import java.lang.reflect.Method;
 
 /**
  * Created by hermanc on 31/3/2017.
@@ -17,7 +17,7 @@ import org.robolectric.internal.bytecode.InstrumentationConfiguration;
 public class ContainedRobolectricTestRunner extends RobolectricTestRunner {
 
   private FrameworkMethod placeholderMethod = null;
-  private SdkEnvironment sdkEnvironment = null;
+  private AndroidSandbox androidSandbox = null;
 
   /*
   A place holder test class to obtain a proper FrameworkMethod (which is actually a
@@ -28,7 +28,6 @@ public class ContainedRobolectricTestRunner extends RobolectricTestRunner {
     /* Just a placeholder, the actual content of the test method is not important */
     @Test
     public void testPlaceholder() {
-
     }
   }
 
@@ -42,24 +41,21 @@ public class ContainedRobolectricTestRunner extends RobolectricTestRunner {
   }
 
   private FrameworkMethod getPlaceHolderMethod() {
-
     if (placeholderMethod == null) {
-      List<FrameworkMethod> childs = getChildren();
-      placeholderMethod = childs.get(0);
+      placeholderMethod = getChildren().get(0);
     }
 
     return placeholderMethod;
 
   }
 
-  @SuppressWarnings("unchecked")
   private Method getBootstrappedMethod() {
     FrameworkMethod placeholderMethod = getPlaceHolderMethod();
-    SdkEnvironment sdkEnvironment = getContainedSdkEnvironment();
+    AndroidSandbox androidSandbox = getContainedSdkEnvironment();
 
     // getTestClass().getJavaClass() should always be PlaceholderTest.class,
     // load under Robolectric's class loader
-    Class bootstrappedTestClass = sdkEnvironment.bootstrappedClass(getTestClass().getJavaClass());
+    Class<?> bootstrappedTestClass = androidSandbox.bootstrappedClass(getTestClass().getJavaClass());
 
     final Method bootstrappedMethod;
     try {
@@ -84,14 +80,14 @@ public class ContainedRobolectricTestRunner extends RobolectricTestRunner {
       .build();
   }
 
-  public SdkEnvironment getContainedSdkEnvironment() {
-    if (sdkEnvironment == null) {
+  public AndroidSandbox getContainedSdkEnvironment() {
+    if (androidSandbox == null) {
       FrameworkMethod frameworkMethod = getPlaceHolderMethod();
-      sdkEnvironment = getSandbox(frameworkMethod);
-      configureSandbox(sdkEnvironment, frameworkMethod);
+      androidSandbox = getSandbox(frameworkMethod);
+      configureSandbox(androidSandbox, frameworkMethod);
     }
 
-    return sdkEnvironment;
+    return androidSandbox;
   }
 
   public void containedBeforeTest() throws Throwable {

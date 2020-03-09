@@ -21,13 +21,10 @@ import hkhc.electricspock.ElectricSpecification
 import org.robolectric.annotation.Config
 import spock.lang.Narrative
 
-/**
- * Created by herman on 28/12/2016.
- */
-@Config(manifest = Config.NONE)
 @Narrative("""
 This spec assert that the enhanced specification should work just like the original specification.
 """)
+@Config(manifest=Config.NONE)
 class BasicSpec extends ElectricSpecification {
 
   def "It should work just like ordinary Specification"() {

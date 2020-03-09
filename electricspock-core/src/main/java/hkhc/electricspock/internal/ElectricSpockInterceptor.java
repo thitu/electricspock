@@ -17,10 +17,11 @@
 
 package hkhc.electricspock.internal;
 
-import hkhc.electricspock.ElectricSputnik;
 import org.spockframework.runtime.extension.AbstractMethodInterceptor;
 import org.spockframework.runtime.extension.IMethodInvocation;
 import org.spockframework.runtime.model.SpecInfo;
+
+import hkhc.electricspock.ElectricSputnik;
 
 /**
  * Created by herman on 27/12/2016.
@@ -47,12 +48,7 @@ public class ElectricSpockInterceptor extends AbstractMethodInterceptor {
     Thread.currentThread().setContextClassLoader(
       containedTestRunner.getContainedSdkEnvironment().getRobolectricClassLoader());
 
-    try {
-      containedTestRunner.containedBeforeTest();
-    }
-    catch (Throwable e) {
-      throw new RuntimeException(e);
-    }
+    containedTestRunner.containedBeforeTest();
 
     // todo: this try/finally probably isn't right -- should mimic RunAfters? [xw]
     try {

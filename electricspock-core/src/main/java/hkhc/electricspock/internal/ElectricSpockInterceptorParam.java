@@ -1,7 +1,7 @@
 package hkhc.electricspock.internal;
 
 import org.robolectric.annotation.Config;
-import org.robolectric.internal.SdkEnvironment;
+import org.robolectric.internal.AndroidSandbox;
 import org.spockframework.runtime.model.SpecInfo;
 
 /**
@@ -11,7 +11,7 @@ import org.spockframework.runtime.model.SpecInfo;
 public class ElectricSpockInterceptorParam {
 
   public Object specinfo;
-  public Object sdkEnvironment;
+  public Object androidSandbox;
   public Object config;
   public Object containedRobolectricTestRunner;
 
@@ -24,8 +24,8 @@ public class ElectricSpockInterceptorParam {
     return this;
   }
 
-  public ElectricSpockInterceptorParam sdkEnvironment(SdkEnvironment sdkEnvironment) {
-    this.sdkEnvironment = sdkEnvironment;
+  public ElectricSpockInterceptorParam sdkEnvironment(AndroidSandbox androidSandbox) {
+    this.androidSandbox = androidSandbox;
     return this;
   }
 
