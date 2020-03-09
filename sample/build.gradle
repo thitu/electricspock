@@ -16,28 +16,40 @@
  */
 
 apply plugin: "com.android.application"
-apply plugin: "groovyx.android"
 
 android {
-  compileSdkVersion 29
-  buildToolsVersion "29.0.3"
+  compileSdkVersion 28
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_8
+    targetCompatibility JavaVersion.VERSION_1_8
+  }
   defaultConfig {
     applicationId "hkhc.electricspock.sample"
     minSdkVersion 21
-    targetSdkVersion 29
     versionCode 1
     versionName "1.0"
-    testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+  }
+  testOptions {
+    unitTests {
+      includeAndroidResources true
+    }
   }
   buildTypes {
     release {
       minifyEnabled false
-      proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
     }
+  }
+  packagingOptions {
+    exclude "licenses/*.*"
+    exclude "org/apache/maven/project/pom-4.0.0.xml"
   }
 }
 
 dependencies {
-  testCompile project(":electricspock-core")
-  compile project(":electricspock-electricspock")
+  implementation project(":electricspock-electricspock")
+  implementation "androidx.appcompat:appcompat:1.1.0"
+
+  annotationProcessor "com.google.auto.service:auto-service:1.0-rc4"
+
+  testImplementation project(":electricspock-core")
 }
