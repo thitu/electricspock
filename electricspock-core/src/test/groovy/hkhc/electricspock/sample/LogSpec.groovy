@@ -19,9 +19,7 @@ package hkhc.electricspock.sample
 
 import android.util.Log
 import hkhc.electricspock.ElectricSpecification
-import org.robolectric.annotation.Config
 
-@Config(manifest = Config.NONE)
 class LogSpec extends ElectricSpecification {
 
   def "Run Log without error"() {

@@ -18,13 +18,11 @@
 package hkhc.electricspock.sample
 
 import hkhc.electricspock.ElectricSpecification
-import org.robolectric.annotation.Config
 import spock.lang.Narrative
 
 @Narrative("""
 This spec assert that the enhanced specification should work just like the original specification.
 """)
-@Config(manifest=Config.NONE)
 class BasicSpec extends ElectricSpecification {
 
   def "It should work just like ordinary Specification"() {

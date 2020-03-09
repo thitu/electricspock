@@ -33,7 +33,7 @@ dependencies {
   compile "junit:junit:4.13"
 
   testCompile "org.robolectric:android-all:10-robolectric-5803371"
-  testCompile files("../external-libs/androidx-test.jar")
+  testCompile files("external-libs/androidx-test.jar")
 }
 
 configurations.all {

@@ -29,8 +29,6 @@ jar {
 dependencies {
   compile project(":electricspock-core")
   compile "cglib:cglib-nodep:3.3.0"
-
-  testCompile "junit:junit:4.13"
 }
 
 sourceCompatibility = "1.8"

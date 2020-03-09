@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.InitializationError;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
 import org.robolectric.internal.AndroidSandbox;
 import org.robolectric.internal.bytecode.InstrumentationConfiguration;
 
@@ -27,6 +28,7 @@ public class ContainedRobolectricTestRunner extends RobolectricTestRunner {
 
     /* Just a placeholder, the actual content of the test method is not important */
     @Test
+    @Config(manifest = Config.NONE)
     public void testPlaceholder() {
     }
   }

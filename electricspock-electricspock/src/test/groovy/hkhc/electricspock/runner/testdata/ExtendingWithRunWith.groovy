@@ -17,13 +17,16 @@
 
 package hkhc.electricspock.runner.testdata
 
-import org.junit.Ignore
-
+import org.junit.Test
 
 /**
  * Created by herman on 17/1/2017.
  */
 
-@Ignore
 class ExtendingWithRunWith extends WithRunWith {
+
+  @Test
+  void test() {
+    true
+  }
 }
