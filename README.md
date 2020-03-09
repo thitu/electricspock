@@ -3,7 +3,7 @@
 [ ![Download](https://api.bintray.com/packages/thitu/releases/electricspock/images/download.svg) ](https://bintray.com/thitu/releases/electricspock/_latestVersion)
 [![Build Status](https://travis-ci.com/thitu/electricspock.svg?branch=master)](https://travis-ci.com/thitu/electricspock)
 
-The latest version of this fork is `1.0.3` which has been updated to support [Robolectric](http://robolectric.org) version `4.0.2`
+The latest version of this fork is `4.3.1` which has been updated to support [Robolectric](http://robolectric.org) version `4.3.1`
 
 The original code that this is forked from is available [here](https://github.com/hkhc/electricspock).
 
@@ -24,7 +24,7 @@ Add the dependency to your project module's `build.gradle` file:
 
 ```groovy
 dependencies {
-  testImplementation "com.github.thitu.electricspock:electricspock:1.0.3"
+  testImplementation "com.github.thitu.electricspock:electricspock:4.3.1"
 }
 ```
 
