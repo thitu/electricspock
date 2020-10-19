@@ -19,7 +19,6 @@ apply plugin: "java-library"
 apply plugin: "groovy"
 
 artifactId = "electricspock"
-group = "hkhc.electricspock"
 
 ext {
   artifact = "electricspock"
