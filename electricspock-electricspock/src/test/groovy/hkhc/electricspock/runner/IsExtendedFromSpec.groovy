@@ -40,7 +40,7 @@ class IsExtendedFromSpec extends Specification {
   def "a class is not extended from another class"() {
 
     expect: "a class is not extended from another class"
-    !SpecUtils.isExtendedFrom(Rose, String)
+    false == SpecUtils.isExtendedFrom(Rose, String)
   }
 
 }

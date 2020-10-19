@@ -17,11 +17,10 @@
 
 package hkhc.electricspock.internal;
 
+import hkhc.electricspock.ElectricSputnik;
 import org.spockframework.runtime.extension.AbstractMethodInterceptor;
 import org.spockframework.runtime.extension.IMethodInvocation;
 import org.spockframework.runtime.model.SpecInfo;
-
-import hkhc.electricspock.ElectricSputnik;
 
 /**
  * Created by herman on 27/12/2016.
@@ -39,8 +38,11 @@ public class ElectricSpockInterceptor extends AbstractMethodInterceptor {
   }
 
 
-  /*
-  Migrate from RobolectricTestRunner.methodBlock
+  /**
+   * Migrate from RobolectricTestRunner.methodBlock Replace the classloader by Robolectric's when executing a specification.
+   * Restore it when execution finished.
+   *
+   * @param invocation The method invocation to be intercept
    */
   @Override
   public void interceptSpecExecution(IMethodInvocation invocation) throws Throwable {
@@ -48,9 +50,14 @@ public class ElectricSpockInterceptor extends AbstractMethodInterceptor {
     Thread.currentThread().setContextClassLoader(
       containedTestRunner.getContainedSdkEnvironment().getRobolectricClassLoader());
 
-    containedTestRunner.containedBeforeTest();
+    try {
+      containedTestRunner.containedBeforeTest();
+    }
+    catch (Throwable e) {
+      throw new RuntimeException(e);
+    }
 
-    // todo: this try/finally probably isn't right -- should mimic RunAfters? [xw]
+    // todo: this try/finally probably isn't right -- should mimic RunAfters ? [xw]
     try {
       invocation.proceed();
     }
@@ -62,7 +69,5 @@ public class ElectricSpockInterceptor extends AbstractMethodInterceptor {
         Thread.currentThread().setContextClassLoader(ElectricSputnik.class.getClassLoader());
       }
     }
-
   }
-
 }

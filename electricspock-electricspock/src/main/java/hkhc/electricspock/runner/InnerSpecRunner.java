@@ -59,6 +59,23 @@ public class InnerSpecRunner extends Suite {
   }
 
   @Override
+  public Description getDescription() {
+    Description d = super.getDescription();
+    dumpDescription(d);
+    return d;
+  }
+
+  private void dumpDescription(Description d) {
+    dumpDescription(0, d);
+  }
+
+  private void dumpDescription(int level, Description d) {
+    for (Description c : d.getChildren()) {
+      dumpDescription(level + 1, c);
+    }
+  }
+
+  @Override
   protected Description describeChild(Runner child) {
 
     Description d = super.describeChild(child);
@@ -69,7 +86,7 @@ public class InnerSpecRunner extends Suite {
       annotations = testClass.getAnnotations();
       for (Annotation a : annotations) {
         if (a instanceof Title) {
-          title = ((Title) a).value();
+          title = ((Title) a).value() + " (" + testClass.getName() + ")";
           break;
         }
       }
@@ -77,11 +94,13 @@ public class InnerSpecRunner extends Suite {
     if (title != null) {
       Description newD = Description.createSuiteDescription(title, annotations);
       for (Description childD : d.getChildren()) {
-        newD.addChild(childD);
+        newD.addChild(Description.createTestDescription(newD.getTestClass(), childD.getDisplayName()));
       }
+      dumpDescription(newD);
       return newD;
     }
     else {
+      System.out.println("title is null");
       return d;
     }
   }

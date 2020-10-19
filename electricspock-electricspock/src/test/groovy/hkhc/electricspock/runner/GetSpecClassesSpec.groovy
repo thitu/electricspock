@@ -17,6 +17,7 @@
 
 package hkhc.electricspock.runner
 
+
 import hkhc.electricspock.runner.testdata.NoSpecification
 import hkhc.electricspock.runner.testdata.OneNonSpec
 import hkhc.electricspock.runner.testdata.OneSpecification
@@ -26,15 +27,19 @@ import spock.lang.Title
 
 import static hkhc.electricspock.runner.SpecUtils.getSpecClasses
 
+/**
+ * Created by herman on 16/1/2017.
+ */
 @Title("find all Specification inner classes")
+//@TypeChecked
 class GetSpecClassesSpec extends Specification {
 
-  def "Class without inner Specification class"() {
+  def "Class without inner Specfication class"() {
     expect:
     getSpecClasses(NoSpecification).size() == 0
   }
 
-  def "Class with one inner Specification class"() {
+  def "Class with one inner Specfication class"() {
     expect:
     getSpecClasses(OneSpecification).size() == 1
   }
@@ -44,8 +49,9 @@ class GetSpecClassesSpec extends Specification {
     getSpecClasses(OneNonSpec).size() == 0
   }
 
-  def "Class with two inner Specification classes"() {
+  def "Class with two inner Specfication classes"() {
     expect:
     getSpecClasses(TwoSpecifications).size() == 2
   }
+
 }

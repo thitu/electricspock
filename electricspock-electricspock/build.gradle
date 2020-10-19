@@ -15,36 +15,32 @@
  *
  */
 
-apply plugin: "java"
+apply plugin: "java-library"
 apply plugin: "groovy"
+apply plugin: "maven"
+
+artifactId = "electricspock"
+group = "hkhc.electricspock"
 
 ext {
   artifact = "electricspock"
 }
 
-jar {
-  baseName = artifact
-}
-
-dependencies {
-  compile project(":electricspock-core")
-  compile "cglib:cglib-nodep:3.3.0"
-}
-
 sourceCompatibility = "1.8"
 targetCompatibility = "1.8"
 
-configurations.all {
-  resolutionStrategy {
-    failOnVersionConflict()
-    preferProjectModules()
+dependencies {
+  // Workaround for issue https://issuetracker.google.com/issues/65712492
+  // regarding to "Class not found .... Empty test suite" issue
+  testRuntimeOnly files("build/classes/groovy/test")
+  testRuntimeOnly files("build/classes/groovy/main")
 
-    def set = [] as Set
+  api "org.codehaus.groovy:groovy-all:2.5.9"
+  api "org.spockframework:spock-core:1.3-groovy-2.5"
 
-    force set.toArray()
-    forcedModules = set
-  }
+  implementation "cglib:cglib-nodep:3.3.0"
+  implementation "org.jetbrains:annotations-java5:20.1.0"
+  implementation "junit:junit:4.13.1"
+
+  api project(":electricspock-core")
 }
-
-// last
-apply from: "../publishing.gradle"

@@ -29,7 +29,7 @@ class IsJUnitClassSpec extends Specification {
 
   def "Plain class is not JUnit class"() {
     expect:
-    !SpecUtils.isDirectJUnitClass(Dummy)
+    SpecUtils.isDirectJUnitClass(Dummy) == false
   }
 
   def "Class with @RunWith is JUnit class"() {
@@ -44,16 +44,18 @@ class IsJUnitClassSpec extends Specification {
 
   def "Class with arbitrary annotation is not JUnit class"() {
     expect:
-    !SpecUtils.isDirectJUnitClass(DummyWithAnno)
+    SpecUtils.isDirectJUnitClass(DummyWithAnno) == false
   }
 
   def "Plain class is not JUnit class based on ancestors"() {
     expect:
-    !SpecUtils.isJUnitClass(Dummy)
+    SpecUtils.isJUnitClass(Dummy) == false
   }
 
   def "Class with @RunWith is JUnit class based on ancestors"() {
     expect:
     SpecUtils.isJUnitClass(ExtendingWithRunWith)
   }
+
+
 }

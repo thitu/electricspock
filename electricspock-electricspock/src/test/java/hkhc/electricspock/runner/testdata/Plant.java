@@ -22,4 +22,5 @@ package hkhc.electricspock.runner.testdata;
  */
 
 public class Plant extends LivingThing {
+
 }

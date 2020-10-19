@@ -15,18 +15,18 @@
  *
  */
 
-package hkhc.electricspock.runner.testdata
+package hkhc.electricspock.sample
 
-import org.junit.Ignore
-import org.junit.Test;
+import org.robolectric.annotation.Config;
 
 /**
- * Created by herman on 16/1/2017.
+ * Created by herman on 9/10/2017.
  */
-@Ignore
-class WithTestMethod {
-  @Test
-  def testOne() {
+@Config(manifest = Config.NONE)
+class ConfigAnnotatedSpec1 {
 
+  public void placeholder() {
+    // do nothing
   }
+
 }
