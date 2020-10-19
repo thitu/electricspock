@@ -17,13 +17,16 @@
 
 apply plugin: "java-library"
 apply plugin: "groovy"
-apply plugin: "maven"
 
 artifactId = "electricspock"
 group = "hkhc.electricspock"
 
 ext {
   artifact = "electricspock"
+}
+
+jar {
+  baseName = artifact
 }
 
 sourceCompatibility = "1.8"
@@ -44,3 +47,6 @@ dependencies {
 
   api project(":electricspock-core")
 }
+
+// last
+apply from: "../publishing.gradle"
