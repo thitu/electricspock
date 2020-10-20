@@ -17,6 +17,8 @@
 
 package hkhc.electricspock.internal;
 
+import static java.lang.Thread.currentThread;
+
 import hkhc.electricspock.ElectricSputnik;
 import org.spockframework.runtime.extension.AbstractMethodInterceptor;
 import org.spockframework.runtime.extension.IMethodInvocation;
@@ -46,9 +48,8 @@ public class ElectricSpockInterceptor extends AbstractMethodInterceptor {
    */
   @Override
   public void interceptSpecExecution(IMethodInvocation invocation) throws Throwable {
-
-    Thread.currentThread().setContextClassLoader(
-      containedTestRunner.getContainedSdkEnvironment().getRobolectricClassLoader());
+    containedTestRunner.getContainedSdkEnvironment().getTestEnvironment().resetState();
+    currentThread().setContextClassLoader(containedTestRunner.getContainedSdkEnvironment().getRobolectricClassLoader());
 
     try {
       containedTestRunner.containedBeforeTest();
@@ -66,7 +67,7 @@ public class ElectricSpockInterceptor extends AbstractMethodInterceptor {
         containedTestRunner.containedAfterTest();
       }
       finally {
-        Thread.currentThread().setContextClassLoader(ElectricSputnik.class.getClassLoader());
+        currentThread().setContextClassLoader(ElectricSputnik.class.getClassLoader());
       }
     }
   }

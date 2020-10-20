@@ -20,6 +20,7 @@ package hkhc.electricspock.internal
 import hkhc.electricspock.ElectricSpecification
 import hkhc.electricspock.sample.BasicSpec
 import org.junit.Before
+import org.junit.Ignore
 import org.junit.Test
 import org.junit.runners.model.FrameworkMethod
 import org.robolectric.internal.AndroidSandbox
@@ -27,7 +28,7 @@ import org.robolectric.internal.bytecode.InstrumentationConfiguration
 
 import java.lang.reflect.Method
 
-import static org.assertj.core.api.Assertions.assertThat
+import static com.google.common.truth.Truth.assertThat
 
 /**
  * Created by herman on 9/10/2017.
@@ -128,10 +129,11 @@ class ContainedRobolectricTestRunnerTest {
   */
 
 
+  //@Ignore
   @Test
   void "the bootstrap method is the sandboxed method of the placeholder test class"() {
 
-    Method method = runner.getBootstrapedMethod()
+    Method method = runner.getBootstrappedMethod()
     assertThat method.name isEqualTo "testPlaceholder"
     assertThat method.class.classLoader isNotEqualTo ContainedRobolectricTestRunner.PlaceholderTest.classLoader
 
