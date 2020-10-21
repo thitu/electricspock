@@ -30,7 +30,7 @@ import org.spockframework.runtime.model.SpecInfo;
 
 public class ElectricSpockInterceptor extends AbstractMethodInterceptor {
 
-  private ContainedRobolectricTestRunner containedTestRunner;
+  private final ContainedRobolectricTestRunner containedTestRunner;
 
   public ElectricSpockInterceptor(SpecInfo spec,
                                   ContainedRobolectricTestRunner containedRobolectricTestRunner) {
@@ -48,7 +48,6 @@ public class ElectricSpockInterceptor extends AbstractMethodInterceptor {
    */
   @Override
   public void interceptSpecExecution(IMethodInvocation invocation) throws Throwable {
-    containedTestRunner.getContainedSdkEnvironment().getTestEnvironment().resetState();
     currentThread().setContextClassLoader(containedTestRunner.getContainedSdkEnvironment().getRobolectricClassLoader());
 
     try {
@@ -68,6 +67,11 @@ public class ElectricSpockInterceptor extends AbstractMethodInterceptor {
       }
       finally {
         currentThread().setContextClassLoader(ElectricSputnik.class.getClassLoader());
+      }
+      try {
+        containedTestRunner.getContainedSdkEnvironment().getTestEnvironment().resetState();
+      }
+      catch (Exception ignore) {
       }
     }
   }
