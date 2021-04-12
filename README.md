@@ -15,7 +15,7 @@ Add the release repository to your top level `build.gradle` file:
 ```groovy
 allprojects {
   repositories {
-    maven { url  "https://thitu.jfrog.io/artifactory/maven" }
+    maven { url  "https://thitu.jfrog.io/artifactory/releases" }
   }
 }
 ```
