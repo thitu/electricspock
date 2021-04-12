@@ -1,12 +1,3 @@
-buildscript {
-  repositories {
-    jcenter()
-  }
-  dependencies {
-    classpath "org.jfrog.buildinfo:build-info-extractor-gradle:latest.release"
-  }
-}
-
 apply plugin: "java-library"
 apply plugin: "maven-publish"
 apply plugin: "com.jfrog.artifactory"
