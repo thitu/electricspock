@@ -1,6 +1,15 @@
+buildscript {
+  repositories {
+    jcenter()
+  }
+  dependencies {
+    classpath "org.jfrog.buildinfo:build-info-extractor-gradle:latest.release"
+  }
+}
+
 apply plugin: "java-library"
 apply plugin: "maven-publish"
-apply plugin: "com.jfrog.bintray"
+apply plugin: "com.jfrog.artifactory"
 
 task sourcesJar(type: Jar) {
   from sourceSets.main.allJava
@@ -29,25 +38,13 @@ publishing {
   }
 }
 
-bintray {
-  user = BINTRAY_USERNAME
-  key = BINTRAY_API_KEY
-
-  publications = ["mavenJava"]
-
-  pkg {
-    repo = "releases"
-    name = "${artifact}"
-
-    licenses = ["Apache-2.0"]
-    vcsUrl = "https://github.com/thitu/electricspock.git"
-    publicDownloadNumbers = true
-    version {
-      name = project.version
-      desc = "Cloned ElectricSpock"
-      released = new Date()
-      vcsTag = project.version
-      attributes = [:]
+artifactory {
+  publish {
+    contextUrl = "https://thitu.jfrog.io/artifactory/maven"
+    repository {
+      repoKey = "maven"
+      username = JFROG_USERNAME
+      password = JFROG_PASSWORD
     }
   }
 }

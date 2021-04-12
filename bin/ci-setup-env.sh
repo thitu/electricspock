@@ -5,13 +5,13 @@ set -e
 mkdir -p ~/.gradle
 
 if [ -n "${TRAVIS_TAG}" ]; then
-  if [ -n "${BINTRAY_USERNAME}" ] && [ -n "${BINTRAY_API_KEY}" ]; then
-    echo "BINTRAY_USERNAME=${BINTRAY_USERNAME}" >> ~/.gradle/gradle.properties
-    echo "BINTRAY_API_KEY=${BINTRAY_API_KEY}" >> ~/.gradle/gradle.properties
+  if [ -n "${JFROG_USERNAME}" ]; then
+    echo "JFROG_USERNAME=${JFROG_USERNAME}" >> ~/.gradle/gradle.properties
+    echo "JFROG_PASSWORD=${JFROG_PASSWORD}" >> ~/.gradle/gradle.properties
   else
     echo "Error: missing publishing secrets" && exit -1
   fi
 else
-  echo "BINTRAY_USERNAME=__BINTRAY_USERNAME__" >> ~/.gradle/gradle.properties
-  echo "BINTRAY_API_KEY=__BINTRAY_API_KEY__" >> ~/.gradle/gradle.properties
+  echo "JFROG_USERNAME=__JFROG_USERNAME__" >> ~/.gradle/gradle.properties
+  echo "JFROG_PASSWORD=__JFROG_PASSWORD__" >> ~/.gradle/gradle.properties
 fi
