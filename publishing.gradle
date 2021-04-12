@@ -37,5 +37,10 @@ artifactory {
       username = JFROG_USERNAME
       password = JFROG_PASSWORD
     }
+    defaults {
+      publications("mavenJava")
+      publishArtifacts = true
+      publishPom = true
+    }
   }
 }
